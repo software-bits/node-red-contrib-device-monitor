@@ -1,0 +1,29 @@
+# ignore .ts files
+*.ts
+
+# ignore .sh files
+*.sh
+
+# include .d.ts files
+!*.d.ts
+
+# ignore modules
+/node_modules
+
+# ignore test folders
+/test
+/dist/test
+/coverage
+
+# ignore dev files
+jest.config.*
+.commitlintrc.json
+.eslintignore 
+.eslintrc.json     
+/.github
+tsconfig.json
+
+# ignore examples
+/examples
+/dist/examples
+

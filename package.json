@@ -1,9 +1,10 @@
 {
   "name": "node-red-contrib-device-monitor",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Device monitor that pings and checks arp to determine whether device is connected to local network",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "keywords": ["node-red", "monitor", "device", "ping", "arp", "home", "network"],
   "scripts": {
     "test": "jest",
     "prepublish": "tsc",

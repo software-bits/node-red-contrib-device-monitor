@@ -40,4 +40,15 @@ describe('subscribe-machine', () => {
     expect(subscriberB).toHaveBeenCalledTimes(1);
     expect(subscriberB).toHaveBeenCalledWith(...args);
   });
+  it('throws error if subscriber fails', async () => {
+    const subscriber = jest.fn(() => {
+      throw new Error('ERROR');
+    });
+    const subscribeMachine = new SubscribeMachine();
+    subscribeMachine.subscribe(subscriber);
+    const args = ['argument-a', 1, null];
+    await expect(() => subscribeMachine.callSubscribers(...args)).rejects.toThrowError('Failed execution: ERROR');
+    expect(subscriber).toHaveBeenCalledTimes(1);
+    expect(subscriber).toHaveBeenCalledWith(...args);
+  });
 });

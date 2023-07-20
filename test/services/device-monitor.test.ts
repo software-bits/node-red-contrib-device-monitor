@@ -37,8 +37,8 @@ describe('device-monitor', () => {
         "ip": undefined,
         "mac": "00:00:00:00:00",
         "name": "name-of-device",
-        "notActiveSince": 0,
-        "notConnectedSince": 0,
+        "notActiveCount": 1,
+        "notConnectedCount": 1,
       },
       {
         "active": true,
@@ -46,8 +46,8 @@ describe('device-monitor', () => {
         "ip": "192.168.999.02",
         "mac": "00:00:00:00:01",
         "name": "name-of-device-2",
-        "notActiveSince": 0,
-        "notConnectedSince": 0,
+        "notActiveCount": 0,
+        "notConnectedCount": 0,
       },
     ]);
   });

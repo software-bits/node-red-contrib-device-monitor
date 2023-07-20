@@ -5,8 +5,9 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "prepublish": "tsc",
+    "lint": "eslint --ext .ts .",
     "build": "tsc && cp nodes/device-monitor/device-monitor.html dist/nodes/device-monitor/device-monitor.html"
   },
   "node-red": {

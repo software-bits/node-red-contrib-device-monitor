@@ -13,25 +13,27 @@ export class ArpService extends CacheService<ArpResponse[]> {
     super(cacheIntervalMs);
   }
 
-  getIpAddressFromString(input: string) {
-    const regex = /[0-9.]{7,15}/g;
+  private getFirstMatchFromRegex(input: string, regex: RegExp) {
     const match = input.match(regex);
     return (match ?? []).shift();
   }
 
-  getMacAddressFromString(input: string) {
-    const regex = /[a-fA-F0-9:]{11,17}|[a-fA-F0-9]{6,12}/g;
-    const match = input.match(regex);
-    return (match ?? []).shift();
+  private getIpAddressFromString(input: string) {
+    return this.getFirstMatchFromRegex(input, IpAddress.regExp);
   }
 
-  filterUndefinedRecords(records: { ip?: string, mac?: string }[]): { ip: string, mac: string }[] {
+  private getMacAddressFromString(input: string) {
+    return this.getFirstMatchFromRegex(input, MacAddress.regExp);
+  }
+
+  private filterUndefinedRecords(records: { ip?: string, mac?: string }[]): { ip: string, mac: string }[] {
     return records.filter((record) => record.mac !== undefined && record.ip !== undefined) as { ip: string, mac: string }[];
   }
 
   async arp(): Promise<ArpResponse[]> {
     const arp = async () => {
-      const result = execSync('arp -a').toString();
+      const bufferResult = execSync('arp -a');
+      const result = bufferResult.toString();
       const arpRecords = result.split(/\r?\n/);
       const records = this.filterUndefinedRecords(arpRecords.map((record) => ({
         ip: this.getIpAddressFromString(record),

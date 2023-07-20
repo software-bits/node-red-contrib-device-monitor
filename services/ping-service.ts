@@ -4,10 +4,6 @@ import { CacheService } from './cache-service';
 import { IpAddress } from '../entities/ipAddress';
 
 export class PingService extends CacheService<IpAddress[]> {
-  constructor(cacheIntervalMs: number) {
-    super(cacheIntervalMs);
-  }
-
   async pingAllIPs(): Promise<IpAddress[]> {
     const pingAll = async () => {
       const myIp = ip.address();

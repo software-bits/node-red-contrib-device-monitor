@@ -1,3 +1,6 @@
+import { ExecutionError } from '../errors/execution-error';
+
+// eslint-disable-next-line no-unused-vars
 export class SubscribeMachine <Subscriber extends (...args: any[]) => any> {
   private subscribers: Subscriber[];
 
@@ -12,7 +15,7 @@ export class SubscribeMachine <Subscriber extends (...args: any[]) => any> {
     try {
       await subscriber(...args);
     } catch (err) {
-      // Ignore when failed to call
+      throw new ExecutionError(err instanceof Error && err.message);
     }
   }
 

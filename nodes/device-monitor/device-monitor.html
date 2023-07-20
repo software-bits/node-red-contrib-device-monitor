@@ -8,7 +8,6 @@
       },
       inputs:0,
       outputs:1,
-      icon: "icon.png",
       label: function() {
           return this.name||"device-monitor";
       }
@@ -27,5 +26,42 @@
 </script>
 
 <script type="text/html" data-help-name="device-monitor">
-  <p>Add some help documentation here</p>
+  <p>
+    <h2>About device-monitor</h2>
+    Device monitor pings all devices on your local network and then checks arp table to check whether the device is still connected to the network.
+    Ping result will be used to check whether device is active, arp result whether device is connected.
+  </p>
+  <p>
+    <h2>Setup</h2>
+    <h3>intervalSeconds</h3>
+    Set the intervalSeconds value to an integer > 0. It is the time between iterations.
+    Note that shortest interval is the duration it takes to check device status.
+    Actual interval is: `maximum(intervalSeconds, scriptDuration);`
+    <h3>devices</h3>
+    Devices are defined as an array. Each element consists of a `name` and `macAddress` property.
+    E.g.: 
+    ```
+    [
+      {
+        "name": "name of device",
+        "macAddress": "00:11:22:33:44:55"
+      }
+    ]
+    ```
+  </p>
+  <p>
+    <h2>Response</h2>
+    Every `{intervalSeconds}` seconds an event is emitted with the following payload:
+    ```
+    {
+      name: string, // matches input name
+      mac: string, // matches input mac
+      ip?: string, // ip address if device was found
+      active: boolean; // indicator whether device was pingable
+      connected: boolean; // indicator whether device was found in arp table
+      notActiveCount: number; // counter how many times device was not pingable, (resets when pingable)
+      notConnectedCount: number; // counter how many times device was not in arp table, (resets when found)
+    }[]
+    ```
+  </p>
 </script>

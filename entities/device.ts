@@ -3,12 +3,12 @@ import { MacAddress } from './macAddress';
 
 export interface DeviceSummary {
   name: string,
-  mac?: string,
+  mac: string,
   ip?: string,
   active: boolean;
   connected: boolean;
-  notActiveSince: number;
-  notConnectedSince: number;
+  notActiveCount: number;
+  notConnectedCount: number;
 }
 
 export class Device {
@@ -16,9 +16,9 @@ export class Device {
 
   private isConnected: boolean;
 
-  private notActiveSince: number;
+  private notActiveCount: number;
 
-  private notConnectedSince: number;
+  private notConnectedCount: number;
 
   mac: MacAddress;
 
@@ -27,8 +27,8 @@ export class Device {
   constructor(readonly name: string, mac: string) {
     this.isActive = false;
     this.isConnected = false;
-    this.notActiveSince = 0;
-    this.notConnectedSince = 0;
+    this.notActiveCount = 0;
+    this.notConnectedCount = 0;
     this.mac = new MacAddress(mac);
   }
 
@@ -38,22 +38,22 @@ export class Device {
   }
 
   setActive(active: boolean): Device {
-    if (this.isActive === true && active === false) {
-      this.notActiveSince = new Date().getTime();
+    if (active === false) {
+      this.notActiveCount += 1;
     }
-    if (this.isActive === false && active === true) {
-      this.notActiveSince = 0;
+    if (active === true) {
+      this.notActiveCount = 0;
     }
     this.isActive = active;
     return this;
   }
 
   setConnected(connected: boolean): Device {
-    if (this.isConnected === true && connected === false) {
-      this.notConnectedSince = new Date().getTime();
+    if (connected === false) {
+      this.notConnectedCount += 1;
     }
-    if (this.isConnected === false && connected === true) {
-      this.notConnectedSince = 0;
+    if (connected === true) {
+      this.notConnectedCount = 0;
     }
     this.isConnected = connected;
     return this;
@@ -62,12 +62,12 @@ export class Device {
   toSummary(): DeviceSummary {
     return {
       name: this.name,
-      mac: this.mac !== undefined ? this.mac.get() : undefined,
+      mac: this.mac.get(),
       ip: this.ip !== undefined ? this.ip.get() : undefined,
       active: this.isActive,
       connected: this.isConnected,
-      notActiveSince: this.notActiveSince,
-      notConnectedSince: this.notConnectedSince,
+      notActiveCount: this.notActiveCount,
+      notConnectedCount: this.notConnectedCount,
     };
   }
 }

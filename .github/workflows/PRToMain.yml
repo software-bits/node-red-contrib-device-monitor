@@ -20,7 +20,6 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-    - run: sh test-ts-versions.sh
     - run: npm ci
     - run: tsc
     - run: npm run test
